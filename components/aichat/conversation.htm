@@ -1,0 +1,11 @@
+{% if __SELF__.chat() %}
+    {% for reply in __SELF__.chat() %}
+        {% set type = (reply.role == 'user' ? 'sent' : 'received') %}
+        <div class="bt-ai-search-conversation-message bt-ai-search-conversation-message-{{type}}">
+            <div class="bt-ai-search-conversation-message-user">
+                <img src="https://intreb.bancatransilvania.ro/themes/intreb-bt/assets/images/{{type == 'sent' ? 'AI SEARCH USER' : 'AI SEARCH INTREB LOGO'}}.svg"/>
+            </div>
+            <div class="bt-ai-search-conversation-message-text">{{ reply.content|raw }}</div>
+        </div>
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,55 @@
+<div class="bt-ai-search-conversation-wrapper">
+    <div class="bt-ai-search-conversation">
+        {% partial '@conversation' %}
+    </div>
+</div>
+<div class="bt-ai-search-form" data-ai-search-form>
+    {{ form_token() }}
+    <div class="bt-ai-search-form-field-group">
+        <div class="bt-ai-search-form-field-gradient">
+            <div class="bt-ai-search-form-field">
+                <span class="input" id="msg" data-placeholder="{{__SELF__.chat() ? 'Întreabă în continuare' : 'Începe o conversatie'}}" contenteditable="{{ browser('Firefox') ? 'true' : 'plaintext-only' }}" data-ai-search-input></span>
+                <button type="button" class="bt-ai-search-form-field-btn" data-record-audio>
+                    <img src="{{ 'assets/images/AI SEARCH MICROPHONE.svg'|theme }}"/>
+                </button>
+                <button type="button" class="bt-ai-search-form-field-btn hidden" data-recording-audio>
+                    <span class="bt-ai-search-form-field-waves" data-recording-audio-waves></span>
+                    <img src="{{ 'assets/images/AI SEARCH STOP RECORDING.svg'|theme }}"/>
+                </button>
+            </div>
+        </div>
+        <button type="button" class="bt-ai-search-form-field-submit-btn">
+            <img src="{{ 'assets/images/AI SEARCH SEND.svg'|theme }}"/>
+            <span class="loading">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
+        </button>
+    </div>
+    <div class="bt-ai-search-form-text">
+        {#
+        <span>Utilizarea AI Search presupune acceptarea <button type="button" data-toggle-modal="#bt-ai-terms-modal">Termenilor și condițiilor</span>
+        #}
+        <span>AI Search oferă răspunsuri generate automat, folosind tehnologia GPT4, ce pot avea conținut inexact sau potențial ofensator, care nu reprezintă punctul de vedere al Băncii Transilvania. Ești singurul responsabil pentru utilizarea conținutului generat de acest serviciu. Citește <button type="button" data-toggle-modal="#bt-ai-terms-modal">Termenii și Condițiile</button>.</span>
+    </div>
+</div>
+
+{# NOT IN DESIGN
+<div id="viz">
+    <canvas id="analyser" width="1024" height="500"></canvas>
+    <canvas id="wavedisplay" width="1024" height="500"></canvas>
+</div>
+
+<div id="controls">
+    <button type="button" id="record" onclick="toggleRecording(this);">record</button>
+    <select id="language">
+        <option value="en-US">English (United States)</option>
+        <option value="en-GB">English (United Kingdom)</option>
+        <option value="pl-PL">Polish (Poland)</option>
+        <option value="ru-RU">Russian (Russia)</option>
+        <option value="de-DE">German (Germany)</option>
+    </select>
+    <input id="save" href="#" name="file" type="hidden">
+</div>
+#}

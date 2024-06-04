@@ -1,0 +1,6 @@
+plugin:
+    name: 'bsd.aichat::lang.plugin.name'
+    description: 'bsd.aichat::lang.plugin.description'
+    author: bsd
+    icon: oc-icon-android
+    homepage: ''
