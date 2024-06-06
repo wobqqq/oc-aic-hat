@@ -1,32 +1,4 @@
-const onCompleteReply = data => {
-    let form = document.querySelector('.bt-ai-search-form'),
-        submitBtn = form.querySelector('.bt-ai-search-form-field-submit-btn'),
-        searchInput = form.querySelector('#msg');
-
-    displayMessage({
-        text: data[0].content,
-        type: 'received'
-    });
-
-    if (data[1]) {
-        document.querySelectorAll('.bt-ai-search-form').forEach(element => {
-            element.remove();
-        });
-
-        displayMessage({
-            text: data[1].content,
-            type: 'received',
-            last: true
-        });
-    }
-
-    searchInput.classList.remove('disabled');
-    searchInput.dataset.placeholder = 'Întreabă în continuare';
-    searchInput.dataset.previousPlaceholder = 'Întreabă în continuare';
-    searchInput.innerText = '';
-    searchInput.focus();
-    submitBtn.disabled = false;
-};
+let lastBotHtmlMessage = '';
 
 const btAiSearchScroll = () => {
     if (window.innerWidth < 992) {
@@ -38,103 +10,229 @@ const btAiSearchScroll = () => {
     }
 }
 
-const displayMessage = content => {
-    if (content.hasOwnProperty('text') && content.hasOwnProperty('type')) {
+const getConversation = () => {
+    const conversation = document.querySelector('.bt-ai-search-conversation');
 
-        document.querySelectorAll('.bt-ai-search-conversation').forEach(conversation => {
-            if (content.text != '') {
-                let className = `bt-ai-search-conversation-message bt-ai-search-conversation-message-${content.type}`;
-                if (content.hasOwnProperty('last')) {
-                    className += ' bt-ai-search-conversation-message-received-gradient';
-                }
-
-                let html = `<div class="${className}">
-                    <div class="bt-ai-search-conversation-message-user">
-                        <img src="https://intreb.bancatransilvania.ro/themes/intreb-bt/assets/images/${content.type == 'sent' ? 'AI SEARCH USER' : 'AI SEARCH INTREB LOGO'}.svg"/>
-                    </div>
-                    <div class="bt-ai-search-conversation-message-text">${content.text}</div>`;
-
-                    if (content.hasOwnProperty('last')) {
-                        html += `<div class="bt-ai-search-conversation-message-actions">
-                            <button type="button" class="bt-ai-search-conversation-message-action-blue" data-refresh>Reîncepe conversația</button>
-                        </div>`;
-                    }
-
-                html += `</div>`;
-
-                conversation.innerHTML += html;
-
-                if (content.type == 'sent') {
-                    btAiSearchScroll();
-                } else {
-                    const lastMessage = document.querySelectorAll('.bt-ai-search-conversation-message-received')[document.querySelectorAll('.bt-ai-search-conversation-message-received').length - 1];
-                    if (lastMessage) {
-                        const animation = gsap.timeline({onComplete: btAiSearchScroll});
-                        let mySplitText = new SplitText(lastMessage.querySelectorAll('.bt-ai-search-conversation-message-text'), { type: 'words,chars' }),
-                            chars = mySplitText.chars;
-
-                        chars.forEach(char => {
-                            animation.from(char, {
-                                duration: char.innerText.length * gsap.utils.random(.01, .04, .01),
-                                text: '',
-                                ease: 'none',
-                                onUpdate: btAiSearchScroll,
-                                onComplete: btAiSearchScroll
-                            });
-                        });
-                    }
-                }
-            }
-        });
+    if (!conversation) {
+        throw new Error('Conversation not found');
     }
+
+    return conversation;
 }
 
-const onAIFormSubmit = () => {
-    let form = document.querySelector('.bt-ai-search-form');
+const getLastBotMessage = (conversation) => {
+    if (!conversation) {
+        conversation = getConversation();
+    }
 
-    if (form) {
-        let submitBtn = form.querySelector('.bt-ai-search-form-field-submit-btn'),
-            searchInput = form.querySelector('#msg');
+    const lastMessage = conversation.lastElementChild;
 
-        if (!submitBtn.disabled && !searchInput.classList.contains('disabled')) {
-            $.request('onValidateMessage', {
-                data: {
-                    msg: searchInput.innerText,
-                    _token: document.querySelector("input[name=_token]").value
-                },
-                complete: data => {
-                    if (data['msg']) {
-                        displayMessage({
-                            text: data['msg'],
-                            type: 'sent'
-                        });
+    return lastMessage.classList.contains('bt-ai-search-conversation-message-received')
+        ? lastMessage
+        : null;
+}
 
-                        // const socket = new WebSocket('wss://37.251.255.8:8000/chat/streaming');
-                        //
-                        // socket.onmessage = function (event) {
-                        //     console.log(event.data);
-                        // };
-                        //
-                        // socket.send('{"messages": [{"role": "user", "content": "Ce faci?"}]}');
+const freezeForm = (formButton, searchInput) => {
+    formButton.disabled = true;
+    searchInput.dataset.placeholder = 'Întreabă în continuare';
+    searchInput.innerText = '';
+    searchInput.classList.add('disabled');
+    lastBotHtmlMessage = '';
+}
 
-                        $.request('onMessage', {
-                            data: {
-                                msg: data['msg'],
-                                _token: document.querySelector("input[name=_token]").value
-                            },
-                            complete: data => {
-                                onCompleteReply(data);
-                            }
-                        });
+const unfreezeForm = (formButton, searchInput) => {
+    formButton.disabled = false;
+    searchInput.classList.remove('disabled');
+    searchInput.dataset.placeholder = 'Întreabă în continuare';
+    searchInput.dataset.previousPlaceholder = 'Întreabă în continuare';
+    searchInput.innerText = '';
+    searchInput.focus();
+    lastBotHtmlMessage = '';
+}
 
-                        submitBtn.disabled = true;
-                        searchInput.dataset.placeholder = 'Întreabă în continuare';
-                        searchInput.innerText = '';
-                        searchInput.classList.add('disabled');
-                    }
-                }
-            });
+const resetBotMessageStyle = () => {
+    const conversation = getConversation();
+
+    conversation
+        .querySelectorAll('.bt-ai-search-conversation-message-received-gradient')
+        .forEach((element) => {
+            element.classList.remove('bt-ai-search-conversation-message-received-gradient');
+        });
+
+    conversation
+        .querySelectorAll('.bt-ai-search-conversation-message-actions')
+        .forEach((element) => {
+            element.innerHTML = '';
+        });
+}
+
+const isContainHtml = (value) => {
+    return (/(<[a-z][\s\S]*>)|(<\/[a-z][\s\S]*>)|<[a-z][\s\S]*\/>/i).test(value);
+}
+
+const serveEventData = (data) => {
+    if (!data) {
+        return;
+    }
+
+    const decoder = new TextDecoder("utf-8");
+
+    let line = decoder
+        .decode(data)
+        .toString();
+
+    if (line.startsWith(': ping') && line.endsWith('\r\n\r\n')) {
+        return;
+    }
+
+    const lines = line
+        .split('data: ')
+        .map((line) => line.replace(/\n\n$/, ''))
+        .filter((line) => line);
+
+    if (!lines.length) {
+        return;
+    }
+
+    lines.forEach((line) => {
+        const event = JSON.parse(line);
+
+        if (!event || !event.content) {
+            return;
         }
+
+        if (isContainHtml(event.content)) {
+            lastBotHtmlMessage += event.content;
+        } else {
+            displayBotMessage(event.content);
+        }
+    });
+}
+
+const displayUserMessage = (message) => {
+    if (!message) {
+        return;
+    }
+
+    const conversation = getConversation();
+
+    conversation.innerHTML += `
+            <div class="bt-ai-search-conversation-message bt-ai-search-conversation-message-sent">
+                <div class="bt-ai-search-conversation-message-user">
+                    <img src="https://intreb.bancatransilvania.ro/themes/intreb-bt/assets/images/AI SEARCH USER.svg" alt=""/>
+                </div>
+                <div class="bt-ai-search-conversation-message-text">${message}</div>
+            </div>
+        `;
+
+    btAiSearchScroll();
+}
+
+const displayBotMessage = (message) => {
+    const conversation = getConversation();
+    const lastBotMessage = getLastBotMessage(conversation);
+
+    if (lastBotMessage === null) {
+        conversation.innerHTML += `
+                <div class="bt-ai-search-conversation-message bt-ai-search-conversation-message-received bt-ai-search-conversation-message-received-gradient">
+                    <div class="bt-ai-search-conversation-message-user">
+                        <img src="https://intreb.bancatransilvania.ro/themes/intreb-bt/assets/images/AI SEARCH INTREB LOGO.svg" alt=""/>
+                    </div>
+                    <div class="bt-ai-search-conversation-message-text">${message}</div>
+                    <div class="bt-ai-search-conversation-message-actions"></div>
+                </div>
+            `;
+    } else {
+        lastBotMessage.querySelector('.bt-ai-search-conversation-message-text').append(message);
+    }
+
+    btAiSearchScroll();
+}
+
+const displayBotHtmlMessage = () => {
+    if (!lastBotHtmlMessage) {
+        return;
+    }
+
+    let lastBotMessage = getLastBotMessage();
+
+    if (!lastBotMessage) {
+        displayBotMessage('');
+    }
+
+    lastBotMessage = getLastBotMessage();
+
+    lastBotMessage.querySelector('.bt-ai-search-conversation-message-text').innerHTML = lastBotHtmlMessage;
+
+    btAiSearchScroll();
+}
+
+const displayResetButton = () => {
+    const lastBotMessage = getLastBotMessage();
+
+    if (!lastBotMessage) {
+        return;
+    }
+
+    lastBotMessage.querySelector('.bt-ai-search-conversation-message-actions').innerHTML = `
+        <button type="button" class="bt-ai-search-conversation-message-action-blue" data-refresh>Reîncepe conversația</button>
+    `;
+
+    btAiSearchScroll();
+}
+
+const onAIFormSubmit = async () => {
+    const form = document.querySelector('.bt-ai-search-form');
+
+    if (!form) {
+        throw new Error('Form not found');
+    }
+
+    const formButton = form.querySelector('.bt-ai-search-form-field-submit-btn');
+    const searchInput = form.querySelector('#msg');
+
+    const message = searchInput ? searchInput.innerText : null;
+    const token = document.querySelector("input[name=_token]").value;
+
+    if (!formButton || formButton && formButton.disabled || !message || !token) {
+        return;
+    }
+
+    freezeForm(formButton, searchInput)
+    resetBotMessageStyle();
+    displayUserMessage(message);
+
+    try {
+        const response = await fetch('/api/ai/chat/streaming', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: message,
+                _token: token,
+            }),
+        })
+
+        const reader = response.body.getReader();
+
+        while (true) {
+            const {value, done} = await reader.read();
+            if (value) {
+                serveEventData(value);
+            }
+
+            if (done) {
+                displayBotHtmlMessage();
+                displayResetButton();
+                unfreezeForm(formButton, searchInput);
+
+                break;
+            }
+        }
+    } catch (e) {
+        unfreezeForm(formButton, searchInput);
+        console.error('Form request error', e.message);
     }
 }
 

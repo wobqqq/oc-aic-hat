@@ -7,7 +7,7 @@
         flex-flow: column;
         align-items: stretch;
     }
-    
+
     @media(min-width:992px) {
         width: 100%;
         max-width: 860px;
@@ -21,13 +21,13 @@
 		width: 4px;
 		height: 4px;
 	}
-	
+
 	::-webkit-scrollbar-track {
 		background-color: #F0F0F0;
         border: 0;
 		border-radius: 4px;
 	}
-	
+
 	::-webkit-scrollbar-thumb {
 		background-color: #0090FF;
         border: 0;
@@ -38,7 +38,7 @@
         background-color: #fff;
         align-items: center;
         gap: 8px;
-        
+
         @media(max-width:991px) {
             position: sticky;
             top: 0;
@@ -48,7 +48,7 @@
             justify-content: space-between;
             z-index: 2;
         }
-        
+
         @media(min-width:992px) {
             padding: 24px 32px;
             border-radius: 32px;
@@ -64,7 +64,7 @@
 			background-color: #1D1D1D;
 		}
     }
-    
+
     .bt-ai-search-header-back-button {
         background-color: transparent;
         color: #555;
@@ -80,7 +80,7 @@
         .dark-mode & {
             color: #fff;
         }
-    
+
         svg {
             width: 9px;
             height: 22px;
@@ -88,7 +88,7 @@
             align-self: flex-start;
         }
     }
-    
+
     .bt-ai-search-header-share-button {
         background-color: transparent;
         width: 24px;
@@ -96,7 +96,7 @@
         border: 0;
         display: flex;
         align-items: center;
-    
+
         svg {
             width: 100%;
             height: 100%;
@@ -119,11 +119,11 @@
             svg {
                 width: auto;
                 display: block;
-                
+
                 @media(max-width:991px) {
                     height: 34px;
                 }
-                
+
                 @media(min-width:992px) {
                     height: 45px;
                 }
@@ -133,7 +133,7 @@
         a {
             color: #555;
             text-decoration: none;
-            
+
             &:hover {
                 color: #0090FF;
                 text-decoration: none;
@@ -144,14 +144,14 @@
     .bt-ai-search-body {
         background-color: #fff;
         overflow: clip;
-        
+
         @media(max-width:991px) {
             flex: 1;
             display: flex;
             flex-flow: column;
             align-items: stretch;
         }
-        
+
         @media(min-width:992px) {
             border-radius: 32px;
         }
@@ -159,7 +159,7 @@
         .dark-mode & {
 			background-color: #1D1D1D;
 		}
-        
+
         .bt-ai-search-conversation-wrapper {
             @media(max-width:991px) {
                 position: relative;
@@ -167,7 +167,7 @@
                 flex: 1;
                 z-index: 1;
             }
-            
+
             @media(min-width:992px) {
                 height: 556px;
                 padding: 32px 32px 0 32px;
@@ -177,7 +177,7 @@
                 @media(max-width:991px) {
                     padding-bottom: 24px;
                 }
-                
+
                 @media(min-width:992px) {
                     padding-bottom: 32px;
                 }
@@ -193,13 +193,13 @@
                 justify-content: start;
                 gap: 8px;
                 z-index: 1;
-                
+
                 @media(max-width:991px) {}
-                
+
                 @media(min-width:992px) {
                     overflow: auto;
                 }
-                
+
                 .bt-ai-search-conversation-message {
                     position: relative;
                     color: #555;
@@ -255,7 +255,7 @@
                             display: none;
                         }
                     }
-    
+
                     .bt-ai-search-conversation-message-actions {
                         min-width: 0;
                         min-height: 0;
@@ -264,7 +264,7 @@
                         display: flex;
                         gap: 20px;
                     }
-    
+
                     .bt-ai-search-conversation-message-action {
                         background-color: transparent;
                         fill: #D9D9D9;
@@ -284,16 +284,16 @@
                         border-radius: 108px;
                         font-size: 14px;
                     }
-    
+
                     &.bt-ai-search-conversation-message-sent {}
-                    
+
                     &.bt-ai-search-conversation-message-received {
                         background-color: #FAFAFA;
 
                         .dark-mode & {
                             background-color: transparent;
                         }
-                        
+
                         &.bt-ai-search-conversation-message-received-gradient {
                             background: linear-gradient(89deg, #FF6060 -3.34%, #5988FF 54.06%);
 
@@ -327,15 +327,15 @@
         }
 
         .bt-ai-search-maintainance {
-            min-height: 814px;
-            padding: 54px;
-            display: flex;
-            flex-flow: column;
-            align-items: stretch;
-            justify-content: space-between;
-            gap: 24px;
-            
-            
+            //min-height: 814px;
+            //padding: 54px;
+            //display: flex;
+            //flex-flow: column;
+            //align-items: stretch;
+            //justify-content: space-between;
+            //gap: 24px;
+
+
             .bt-ai-search-maintainance-message {
                 img {
                     width: auto;
@@ -354,7 +354,7 @@
                     align-items: center;
                     gap: 16px;
                     font-size: 14px;
-                    
+
                     span {
                         flex: 1;
                     }
@@ -399,7 +399,7 @@
             bottom: 0;
             background-color: #fff;
             z-index: 2;
-            
+
             @media(max-width:991px) {
                 padding: 24px;
             }
@@ -419,7 +419,7 @@
                 @media(max-width:991px) {
                     gap: 6px;
                 }
-            
+
                 @media(min-width:992px) {
                     gap: 8px;
                 }
@@ -428,7 +428,7 @@
                     @media(max-width:991px) {
                         margin-bottom: 8px;
                     }
-                    
+
                     @media(min-width:992px) {
                         margin-bottom: 16px;
                     }
@@ -443,21 +443,21 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
-    
+
                     .dark-mode & {
                         background-color: #333;
                     }
-    
+
                     @media(max-width:991px) {
                         width: 54px;
                         height: 54px;
                     }
-                
+
                     @media(min-width:992px) {
                         width: 64px;
                         height: 64px;
                     }
-    
+
                     img {
                         position: absolute;
                         top: 50%;
@@ -494,11 +494,11 @@
                                 background: linear-gradient(89deg, #FF6060 -3.34%, #5988FF 106.86%);
                                 z-index: 2;
                             }
-                            
+
                             &:nth-child(2) {
                                 left: calc(50% - 3px);
                             }
-                            
+
                             &:nth-child(3) {
                                 left: calc(100% - 6px);
                             }
@@ -509,11 +509,11 @@
                                 left: 0;
                                 background: linear-gradient(89deg, #FF6060 -3.34%, #5988FF 106.86%);
                             }
-                            
+
                             &:nth-child(2) {
                                 left: calc(50% - 3px);
                             }
-                            
+
                             &:nth-child(3) {
                                 left: calc(100% - 6px);
                             }
@@ -523,12 +523,12 @@
                             &:nth-child(3) {
                                 left: 0;
                             }
-                            
+
                             &:nth-child(1) {
                                 left: calc(50% - 3px);
                                 background: linear-gradient(89deg, #FF6060 -3.34%, #5988FF 106.86%);
                             }
-                            
+
                             &:nth-child(2) {
                                 left: calc(100% - 6px);
                             }
@@ -538,11 +538,11 @@
                             &:nth-child(2) {
                                 left: 0;
                             }
-                            
+
                             &:nth-child(3) {
                                 left: calc(50% - 3px);
                             }
-                            
+
                             &:nth-child(1) {
                                 left: calc(100% - 6px);
                                 background: linear-gradient(89deg, #FF6060 -3.34%, #5988FF 106.86%);
@@ -555,7 +555,7 @@
                             opacity: 0;
                         }
                     }
-                    
+
                     &:not(:disabled) {
                         .loading {
                             opacity: 0;
@@ -568,24 +568,24 @@
                     padding: 1px;
                     border-radius: 14px;
                     flex: 1;
-        
+
                     .bt-ai-search-form-field {
                         background-color: #fff;
                         border-radius: 13px;
                         display: flex;
-        
+
                         @media(max-width:991px) {
                             min-height: 50px;
                         }
-                        
+
                         @media(min-width:992px) {
                             min-height: 62px;
                         }
-    
+
                         .dark-mode & {
                             background-color: #333;
                         }
-        
+
                         .input {
                             position: relative;
                             background-color: transparent;
@@ -604,7 +604,7 @@
                             align-self: center;
                             word-break: break-word;
                             overflow: auto;
-    
+
                             &:empty {
                                 &:before {
                                     content: attr(data-placeholder);
@@ -613,27 +613,27 @@
                                     transition: opacity .25s ease;
                                 }
                             }
-        
+
                             &::-webkit-input-placeholder {
                                 color: #B5B5B5;
                                 opacity: 1;
                             }
-        
+
                             &:-moz-placeholder {
                                 color: #B5B5B5;
                                 opacity: 1;
                             }
-        
+
                             &::-moz-placeholder {
                                 color: #B5B5B5;
                                 opacity: 1;
                             }
-        
+
                             &:-ms-input-placeholder {
                                 color: #B5B5B5;
                                 opacity: 1;
                             }
-    
+
                             .dark-mode & {
                                 color: #fff;
                                 fill: #fff;
@@ -646,40 +646,40 @@
                                     }
                                 }
                             }
-        
+
                             &:focus {
                                 &:empty {
                                     &:before {
                                         display: none;
                                     }
                                 }
-                                
+
                                 &::-webkit-input-placeholder {
                                     opacity: 0;
                                 }
-            
+
                                 &:-moz-placeholder {
                                     opacity: 0;
                                 }
-            
+
                                 &::-moz-placeholder {
                                     opacity: 0;
                                 }
-            
+
                                 &:-ms-input-placeholder {
                                     opacity: 0;
                                 }
                             }
-        
+
                             @media(max-width:991px) {
                                 padding: 12px 16px;
                             }
-                            
+
                             @media(min-width:992px) {
                                 padding: 12px 20px;
                             }
                         }
-        
+
                         .bt-ai-search-form-field-btn {
                             position: relative;
                             background-color: transparent;
@@ -690,21 +690,21 @@
                             display: flex;
                             align-items: center;
                             justify-content: center;
-    
+
                             @media(max-width:991px) {
                                 min-width: 50px;
                                 height: 50px;
                                 padding: 6px;
                                 gap: 6px;
                             }
-                            
+
                             @media(min-width:992px) {
                                 min-width: 62px;
                                 height: 62px;
                                 padding: 18px;
                                 gap: 10px;
                             }
-        
+
                             img {
                                 width: 24px;
                                 height: 24px;
@@ -719,11 +719,11 @@
             .bt-ai-search-form-text {
                 color: #B5B5B5;
                 line-height: 144%;
-                
+
                 @media(max-width:991px) {
                     font-size: 10px;
                 }
-                
+
                 @media(min-width:992px) {
                     font-size: 12px;
                 }
@@ -756,7 +756,7 @@
         color: #555;
         display: flex;
         align-items: center;
-        
+
         @media(max-width:991px) {
             line-height: 136%;
             padding: 10px 24px;
@@ -764,7 +764,7 @@
             gap: 24px;
             font-size: 12px;
         }
-        
+
         @media(min-width:992px) {
             margin-bottom: 16px;
             padding: 16px 32px;

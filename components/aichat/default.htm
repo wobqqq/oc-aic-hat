@@ -23,10 +23,6 @@
         <div>Întreb BT este cel mai mare program online de educație financiară al Băncii Transilvania, cu peste 2.000 de întrebări și răspunsuri din banking. </div>
     </div>
     <div class="bt-ai-search-body" id="convWrapper">
-        {% if maintenance %}
-            {% partial '@maintenance' %}
-        {% else %}
-            {% partial '@conversation_wrapper' %}
-        {% endif %}
+        {% partial '@conversation_wrapper' %}
     </div>
 </div>
