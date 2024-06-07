@@ -20,4 +20,9 @@ class AiHelper
 
         return $events;
     }
+
+    public static function isHtml(string $value): bool
+    {
+        return (bool)preg_match("/(<[a-z][\s\S]*>)|(<\/[a-z][\s\S]*>)|<[a-z][\s\S]*\/>/i", $value);
+    }
 }

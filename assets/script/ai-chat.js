@@ -66,10 +66,6 @@ const resetBotMessageStyle = () => {
         });
 }
 
-const isContainHtml = (value) => {
-    return (/(<[a-z][\s\S]*>)|(<\/[a-z][\s\S]*>)|<[a-z][\s\S]*\/>/i).test(value);
-}
-
 const serveEventData = (data) => {
     if (!data) {
         return;
@@ -101,7 +97,7 @@ const serveEventData = (data) => {
             return;
         }
 
-        if (isContainHtml(event.content)) {
+        if (event.is_html) {
             lastBotHtmlMessage += event.content;
         } else {
             displayBotMessage(event.content);

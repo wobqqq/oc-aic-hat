@@ -14,11 +14,8 @@ class ChatStorage
 
     private string $chatStorageKey;
 
-    private string $steamingMessageKey;
-
     public function __construct()
     {
-        $this->steamingMessageKey = Uuid::uuid4()->toString();
         $this->chatStorageKey = Cookie::get('chat_storage_key', '');
     }
 
@@ -35,9 +32,9 @@ class ChatStorage
          Cookie::queue('chat_storage_key', $this->chatStorageKey);
     }
 
-    public function get(string $key): array
+    public function get(string $key, $default = null): array
     {
-        return Cache::get(sprintf('%s.%s', $this->chatStorageKey, $key), []);
+        return Cache::get(sprintf('%s.%s', $this->chatStorageKey, $key), $default);
     }
 
     public function put(string $key, $data): void
@@ -50,22 +47,13 @@ class ChatStorage
         Cache::forget(sprintf('%s.%s', $this->chatStorageKey, $key));
     }
 
-    public function putChatStreaming(string $data): void
+    public function putBotMessage(string $data): void
     {
-        $messages = $this->get('bot_messages');
-        $message = end($messages);
-
-        if (empty($message) || $message['key'] !== $this->steamingMessageKey) {
-            $messages[] = [
-                'key' => $this->steamingMessageKey,
-                'role' => 'assistant',
-                'content' => $data,
-            ];
-        } else {
-            $message['content'] .= $data;
-            $key = count($messages) - 1;
-            $messages[$key] = $message;
-        }
+        $messages = $this->get('bot_messages', []);
+        $messages[] = [
+            'role' => 'assistant',
+            'content' => $data,
+        ];
 
         $this->put('bot_messages', $messages);
     }

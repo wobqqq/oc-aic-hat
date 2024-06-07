@@ -54,7 +54,7 @@ readonly class BackService
             throw new ChatStreamingException(trans('bsd.aichat::lang.msg.ip_restriction', [], 'ro'));
         }
 
-        $messages = $this->chatStorage->get('bot_messages');
+        $messages = $this->chatStorage->get('bot_messages', []);
 
         $botMessages = array_filter($messages, function ($message) {
             return $message['role'] === 'assistant';
