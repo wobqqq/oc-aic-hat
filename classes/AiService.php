@@ -8,6 +8,8 @@ use Config;
 
 class AiService
 {
+    private const int DELAY = 40000;
+
     private string $rootUrl;
 
     public function __construct(private readonly ChatStorage $chatStorage)
@@ -70,6 +72,7 @@ class AiService
                 ]);
                 @ob_flush();
                 flush();
+                usleep(self::DELAY);
             }
         }
 
