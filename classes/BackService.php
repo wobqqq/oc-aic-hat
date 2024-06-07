@@ -69,7 +69,6 @@ readonly class BackService
             'content' => $message,
         ];
 
-        $this->aiService->
-        chatStreaming($messages);
+        $this->aiService->chatStreaming($messages);
     }
 }

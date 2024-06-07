@@ -25,4 +25,12 @@ class AiHelper
     {
         return (bool)preg_match("/(<[a-z][\s\S]*>)|(<\/[a-z][\s\S]*>)|<[a-z][\s\S]*\/>/i", $value);
     }
+
+    public static function filterAiEvent(string $value): string
+    {
+        $value = str_replace('data: ', '', $value);
+        $value = str_replace("\r\n\r\n", '', $value);
+
+        return $value;
+    }
 }

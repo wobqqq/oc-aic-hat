@@ -48,6 +48,8 @@ class AiService
         curl_exec($ch);
         curl_close($ch);
 
+        $fullBotMessage = AiHelper::filterAiEvent($fullBotMessage);
+
         $this->chatStorage->putBotMessage($fullBotMessage);
     }
 
