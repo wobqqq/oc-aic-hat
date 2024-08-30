@@ -1,4 +1,6 @@
+document.addEventListener('DOMContentLoaded', () => {
 let lastBotHtmlMessage = '';
+let botMessage = '';
 
 const btAiSearchScroll = () => {
     if (window.innerWidth < 992) {
@@ -38,6 +40,7 @@ const freezeForm = (formButton, searchInput) => {
     searchInput.innerText = '';
     searchInput.classList.add('disabled');
     lastBotHtmlMessage = '';
+    botMessage = '';
 }
 
 const unfreezeForm = (formButton, searchInput) => {
@@ -48,6 +51,7 @@ const unfreezeForm = (formButton, searchInput) => {
     searchInput.innerText = '';
     searchInput.focus();
     lastBotHtmlMessage = '';
+    botMessage = '';
 }
 
 const resetBotMessageStyle = () => {
@@ -83,7 +87,6 @@ const serveEventData = (data) => {
 
     const lines = line
         .split('data: ')
-        .map((line) => line.replace(/\n\n$/, ''))
         .filter((line) => line);
 
     if (!lines.length) {
@@ -99,7 +102,9 @@ const serveEventData = (data) => {
 
         if (event.is_html) {
             lastBotHtmlMessage += event.content;
+            displayBotMessage(event.content);
         } else {
+            botMessage += event.content;
             displayBotMessage(event.content);
         }
     });
@@ -140,6 +145,8 @@ const displayBotMessage = (message) => {
             `;
     } else {
         lastBotMessage.querySelector('.bt-ai-search-conversation-message-text').append(message);
+        const converter = new showdown.Converter();
+        lastBotMessage.querySelector('.bt-ai-search-conversation-message-text').innerHTML = converter.makeHtml(botMessage);
     }
 
     btAiSearchScroll();
@@ -298,3 +305,4 @@ setTimeout(() => {
         element.remove();
     });
 }, 20000);
+});

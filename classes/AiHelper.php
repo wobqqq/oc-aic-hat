@@ -13,9 +13,10 @@ class AiHelper
 
     public static function toEventList(string $line): array
     {
-        $events = explode('data: ', $line);
-        $events = array_map(function (string $event) {
-            return rtrim($event, "\r\n\r\n");
+        $events = explode("\r\n\r\n", $line);
+        $events = array_map(function ($event) {
+            $event = str_replace('data: ', '', $event);
+            return $event;
         }, $events);
 
         return $events;
